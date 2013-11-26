@@ -5,12 +5,14 @@ import java.io.InputStream;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import org.apache.http.HttpResponse;
@@ -36,6 +38,39 @@ public class LoginScreen extends Activity {
         enterButton = (Button) findViewById(R.id.button);
         password = (EditText) findViewById(R.id.editText);
 
+
+        ImageView img = (ImageView)findViewById(R.id.imageView2);
+        img.setOnClickListener(new View.OnClickListener(){
+            public void onClick(View v){
+                Intent intent = new Intent();
+                intent.setAction(Intent.ACTION_VIEW);
+                intent.addCategory(Intent.CATEGORY_BROWSABLE);
+                intent.setData(Uri.parse("https://www.facebook.com/pages/Quiero-Besarte/281514515307124"));
+                startActivity(intent);
+            }
+        });
+
+        ImageView img2 = (ImageView)findViewById(R.id.imageView3);
+        img2.setOnClickListener(new View.OnClickListener(){
+            public void onClick(View v){
+                Intent intent = new Intent();
+                intent.setAction(Intent.ACTION_VIEW);
+                intent.addCategory(Intent.CATEGORY_BROWSABLE);
+                intent.setData(Uri.parse("https://twitter.com/QuierobesarteES"));
+                startActivity(intent);
+            }
+        });
+
+        ImageView img3 = (ImageView)findViewById(R.id.imageView4);
+        img3.setOnClickListener(new View.OnClickListener(){
+            public void onClick(View v){
+                Intent intent = new Intent();
+                intent.setAction(Intent.ACTION_VIEW);
+                intent.addCategory(Intent.CATEGORY_BROWSABLE);
+                intent.setData(Uri.parse("https://vimeo.com/quierobesarte"));
+                startActivity(intent);
+            }
+        });
 
         enterButton.setOnClickListener(new OnClickListener() {
             @Override
@@ -79,12 +114,12 @@ public class LoginScreen extends Activity {
         try {
 
             //PHP Script Path
-            upLoadServerUri = "http://quierobesarte.es.nt5.unoeuro-server.com/api/Wedding/" + sPassword;
+            upLoadServerUri = Constants.Config.URL + "/api/Wedding/" + sPassword;
             HttpClient httpclient = new DefaultHttpClient();
 
             //APP VERSION
             HttpGet httpGet = new HttpGet(upLoadServerUri);
-            httpGet.setHeader("App-Version","1.0");
+            httpGet.setHeader("App-Version", Constants.Config.VERSION);
 
             HttpResponse response = httpclient.execute(httpGet);
 

@@ -132,10 +132,10 @@ public class MenuScreen extends BaseActivity  {
         try {
 
 
-            String upLoadServerUri = "http://quierobesarte.es.nt5.unoeuro-server.com/api/images/"+ id + "?page=0&numItems=2000";
+            String upLoadServerUri = Constants.Config.URL + "/api/images/"+ id + "?page=0&numItems=2000";
             HttpClient httpclient = new DefaultHttpClient();
             HttpGet httpGet = new HttpGet(upLoadServerUri);
-            httpGet.setHeader("App-Version","1.0");
+            httpGet.setHeader("App-Version", Constants.Config.VERSION);
             HttpResponse response = httpclient.execute(httpGet);
 
             if(response.getStatusLine().getStatusCode() == 426)
@@ -167,7 +167,7 @@ public class MenuScreen extends BaseActivity  {
                 {
                     JSONObject oneObject = jsonArray.getJSONObject(i);
                     // Pulling items from the array
-                    stringArrayList.add("http://quierobesarte.es.nt5.unoeuro-server.com" + oneObject.getString("thumbnailPath"));
+                    stringArrayList.add(Constants.Config.URL + oneObject.getString("thumbnailPath"));
 
                 }
 

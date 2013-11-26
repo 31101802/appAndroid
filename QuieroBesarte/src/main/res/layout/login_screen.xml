@@ -3,11 +3,11 @@
     android:orientation="vertical"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="@drawable/menu">
+    android:background="@drawable/background">
 
     <ImageView
         android:layout_width="wrap_content"
-        android:layout_height="245dp"
+        android:layout_height="wrap_content"
         android:id="@+id/imageView"
         android:layout_gravity="center_horizontal"
         android:src="@drawable/logo"
@@ -15,7 +15,7 @@
 
     <Button
         android:layout_width="120dp"
-        android:layout_height="wrap_content"
+        android:layout_height="40dp"
         android:text="@string/text_button"
         android:id="@+id/button"
         android:layout_gravity="center|bottom"
@@ -23,7 +23,7 @@
         android:textColor="#ffffff"
         android:clickable="false"
         android:background="#da3d11"
-        android:layout_marginBottom="150dp" />
+        android:layout_marginBottom="120dp" />
 
     <EditText
         android:layout_width="241dp"
@@ -38,5 +38,31 @@
         android:singleLine = "true"
         android:maxLines = "1"
         android:lines = "1"/>
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/imageView3"
+        android:layout_gravity="center_horizontal|bottom"
+        android:src="@drawable/twitter_icon"
+        android:layout_marginBottom="15dp" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/imageView4"
+        android:layout_gravity="center_horizontal|bottom"
+        android:src="@drawable/vimeo_icon"
+        android:layout_marginBottom="15dp"
+        android:layout_marginLeft="70dp" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/imageView2"
+        android:layout_gravity="center_horizontal|bottom"
+        android:src="@drawable/facebook_icon"
+        android:layout_marginBottom="15dp"
+        android:layout_marginRight="70dp" />
 
 </FrameLayout>

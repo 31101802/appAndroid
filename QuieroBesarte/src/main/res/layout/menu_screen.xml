@@ -6,36 +6,38 @@
     android:layout_height="match_parent"
     tools:context=".MenuScreen"
     tools:ignore="MergeRootFrame"
-    android:background="@drawable/menu">
+    android:background="@drawable/background">
 
 <ImageView
-android:layout_width="185dp"
-android:layout_height="158dp"
+android:layout_width="wrap_content"
+android:layout_height="wrap_content"
 android:id="@+id/imageView"
 android:layout_gravity="center_horizontal"
 android:src="@drawable/logo"
-android:contentDescription="@string/description_logo" />
+android:contentDescription="@string/description_logo"
+/>
 
     <Button
-        android:layout_width="112dp"
-        android:layout_height="wrap_content"
+        android:layout_width="120dp"
+        android:layout_height="40dp"
+        android:text="Subir Fotos"
+        android:id="@+id/btnUpload"
+        android:layout_gravity="center_horizontal|bottom"
+        android:textColor="#ffffff"
+        android:background="#da3d11"
+        android:textStyle="bold"
+        android:layout_marginBottom="40dp" />
+
+    <Button
+        android:layout_width="120dp"
+        android:layout_height="40dp"
         android:text="Ver Fotos"
         android:id="@+id/btnViewPhotos"
-        android:layout_gravity="center"
+        android:layout_gravity="center_horizontal|bottom"
         android:textColor="#ffffff"
         android:textStyle="bold"
         android:background="#db451a"
-        android:layout_marginTop="55dp"
-        android:onClick="onImageGridClick"/>
-
-    <Button
-        android:layout_width="112dp"
-        android:layout_height="wrap_content"
-        android:text="Subir Fotos"
-        android:id="@+id/btnUpload"
-        android:layout_gravity="center"
-        android:textColor="#ffffff"
-        android:background="#da3d11"
-        android:textStyle="bold" />
+        android:onClick="onImageGridClick"
+        android:layout_marginBottom="90dp" />
 
 </FrameLayout>
