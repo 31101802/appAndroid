@@ -65,9 +65,9 @@ public class ImageGridActivity extends AbsListViewBaseActivity {
 
 
 		options = new DisplayImageOptions.Builder()
-			.showImageOnLoading(R.drawable.ic_stub)
-			.showImageForEmptyUri(R.drawable.ic_empty)
-			.showImageOnFail(R.drawable.ic_error)
+			.showImageOnLoading(R.drawable.ic_launcher)
+			.showImageForEmptyUri(R.drawable.ic_launcher)
+			.showImageOnFail(R.drawable.ic_stub)
 			.cacheInMemory(true)
 			.cacheOnDisc(true)
 			.bitmapConfig(Bitmap.Config.RGB_565)
