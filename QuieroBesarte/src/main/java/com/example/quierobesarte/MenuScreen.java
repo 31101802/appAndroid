@@ -26,9 +26,12 @@ import android.widget.Toast;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.utils.L;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -285,6 +288,31 @@ public class MenuScreen extends BaseActivity  {
         return cursor.getString(column_index);
     }
 
+
+    private Bitmap decodeFile(File f){
+        try {
+            //Decode image size
+            BitmapFactory.Options o = new BitmapFactory.Options();
+            o.inJustDecodeBounds = true;
+            BitmapFactory.decodeStream(new FileInputStream(f),null,o);
+
+            //The new size we want to scale to
+            final int REQUIRED_SIZE=400;
+
+            //Find the correct scale value. It should be the power of 2.
+            int scale=1;
+            while(o.outWidth/scale/2>=REQUIRED_SIZE && o.outHeight/scale/2>=REQUIRED_SIZE)
+                scale*=2;
+
+            //Decode with inSampleSize
+            BitmapFactory.Options o2 = new BitmapFactory.Options();
+            o2.inSampleSize=scale;
+            return BitmapFactory.decodeStream(new FileInputStream(f), null, o2);
+        } catch (FileNotFoundException e) {}
+        return null;
+    }
+
+
     @TargetApi(Build.VERSION_CODES.FROYO)
     public int uploadFile(String sourceFileUri) {
 
@@ -322,15 +350,14 @@ public class MenuScreen extends BaseActivity  {
 
 
                 // open a URL connection to the Servlet
-                FileInputStream fileInputStream = new FileInputStream(sourceFile);
+                //FileInputStream fileInputStream = new FileInputStream(sourceFile);
 
+                Bitmap bitmap = decodeFile(sourceFile);
+                ByteArrayOutputStream bos = new ByteArrayOutputStream();
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 80 /*ignored for PNG*/, bos);
+                byte[] bitmapdata = bos.toByteArray();
 
-                //Resize the images
-                Bitmap myBitmap = BitmapFactory.decodeFile(sourceFileUri);
-                File dir= Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM);
-                Bitmap out = Bitmap.createScaledBitmap(myBitmap, 320, 480, false);
-
-
+                InputStream fileInputStream = new ByteArrayInputStream(bos.toByteArray());
 
                 String upLoadServerUri = "http://quierobesarte.es.nt5.unoeuro-server.com/Uploader/Upload/?guid=" + weddingId;
                 URL url = new URL(upLoadServerUri);
@@ -363,6 +390,8 @@ public class MenuScreen extends BaseActivity  {
 
                 bufferSize = Math.min(bytesAvailable, maxBufferSize);
                 buffer = new byte[bufferSize];
+
+
 
                 // read file and write it into form...
                 bytesRead = fileInputStream.read(buffer, 0, bufferSize);
