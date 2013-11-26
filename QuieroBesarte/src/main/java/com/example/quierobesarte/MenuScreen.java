@@ -3,7 +3,10 @@ package com.example.quierobesarte;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
@@ -31,6 +34,8 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Scanner;
 
 import com.example.quierobesarte.Constants;
@@ -39,6 +44,8 @@ import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 public class MenuScreen extends BaseActivity  {
@@ -73,75 +80,90 @@ public class MenuScreen extends BaseActivity  {
             @Override
 
             public void onClick(View v) {
-
                 openGallery(SELECT_FILE1);
-
             }
 
         });
 
-
-
     }
-
 
 
     public void onImageGridClick(View view) {
 
-
+        dialog = ProgressDialog.show(MenuScreen.this, "", "Cargando imágenes...", true);
         new Thread(new Runnable() {
             public void run() {
+
 
                 String [] arrayPhotos = getImages(weddingId.toString());
 
                 if(arrayPhotos != null)
                 {
-
-                Intent intent = new Intent(getApplicationContext(), ImageGridActivity.class);
-                intent.putExtra(Constants.Extra.IMAGES, arrayPhotos);
-                intent.putExtra("weddingId", weddingId.toString());
-                startActivity(intent);
+                    Intent intent = new Intent(getApplicationContext(), ImageGridActivity.class);
+                    intent.putExtra(Constants.Extra.IMAGES, arrayPhotos);
+                    intent.putExtra("weddingId", weddingId.toString());
+                    startActivity(intent);
                 }
 
             }
         }).start();
 
 
-
-
     }
 
     public String [] getImages(String id) {
-
-
-
-
-
-        Log.i("sPassword", "sPassword :"
-                + id);
 
         InputStream content = null;
 
         try {
 
 
-            String upLoadServerUri = "http://quierobesarte.cloudapp.net/Quierobesarte.Api/getImages.php?q=" + id;
+            String upLoadServerUri = "http://quierobesarte.es.nt5.unoeuro-server.com/api/images/"+ id + "?page=0&numItems=2000";
             HttpClient httpclient = new DefaultHttpClient();
-            HttpResponse response = httpclient.execute(new HttpGet(upLoadServerUri));
+            HttpGet httpGet = new HttpGet(upLoadServerUri);
+            httpGet.setHeader("App-Version","1.0");
+            HttpResponse response = httpclient.execute(httpGet);
+
+            if(response.getStatusLine().getStatusCode() == 426)
+            {
+                dialog.dismiss();
+                runOnUiThread(new Runnable() {
+                    public void run() {
+                        Toast toast = Toast.makeText(getApplicationContext(),
+                                "Por favor actualice la aplicación descargando la última versión en su Market Place!!", Toast.LENGTH_SHORT);
+                        toast.show();
+                    }
+                });
+                return null;
+
+            }
             content = response.getEntity().getContent();
             Helper helper = new Helper();
+
             String result = helper.convertStreamToString(content);
+            JSONArray jsonArray = new JSONArray(result);
+            ArrayList<String> stringArrayList = new ArrayList<String>();
 
-            Log.i("result", "result :"
-                    + result);
 
-            if(result != "")
+
+            if(jsonArray.length() > 0)
             {
-                    return result.split(",");
 
+                for (int i=0; i < jsonArray.length(); i++)
+                {
+                    JSONObject oneObject = jsonArray.getJSONObject(i);
+                    // Pulling items from the array
+                    stringArrayList.add("http://quierobesarte.es.nt5.unoeuro-server.com" + oneObject.getString("originalPath"));
+
+                }
+
+                String [] stringArray = stringArrayList.toArray(new String[stringArrayList.size()]);
+                dialog.dismiss();
+                return stringArray;
             }
             else
             {
+                dialog.dismiss();
                 runOnUiThread(new Runnable() {
                     public void run() {
                         Toast toast = Toast.makeText(getApplicationContext(),
@@ -153,9 +175,8 @@ public class MenuScreen extends BaseActivity  {
 
 
 
-
         } catch (Exception e) {
-            Log.e("[GET REQUEST]", "Network exception", e);
+            dialog.dismiss();
             runOnUiThread(new Runnable() {
                 public void run() {
                     Toast toast = Toast.makeText(getApplicationContext(),
@@ -169,8 +190,6 @@ public class MenuScreen extends BaseActivity  {
         return null;
 
     }
-
-
 
 
 
@@ -208,36 +227,24 @@ public class MenuScreen extends BaseActivity  {
     public void openGallery(int req_code) {
 
         Intent intent = new Intent();
-
         intent.setType("image/*");
-
         intent.setAction(Intent.ACTION_GET_CONTENT);
-
         startActivityForResult(Intent.createChooser(intent, "Selecciona una foto para subir! "), req_code);
-
     }
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
 
-
         if (resultCode == RESULT_OK) {
             final Uri selectedImageUri = data.getData();
             if (requestCode == SELECT_FILE1)
-
             {
-
-
                 System.out.println("selectedPath1 : " + getPath(selectedImageUri));
-
             }
-
 
             Log.i("getPath(selectedImageUri)", "getPath(selectedImageUri) :"
                     + getPath(selectedImageUri));
 
-
             dialog = ProgressDialog.show(MenuScreen.this, "", "Subiendo tu foto...", true);
-
             new Thread(new Runnable() {
                 public void run() {
                     runOnUiThread(new Runnable() {
@@ -245,13 +252,10 @@ public class MenuScreen extends BaseActivity  {
                             Toast toast =
                                     Toast.makeText(getApplicationContext(),
                                             "Comenzando la subida!!", Toast.LENGTH_SHORT);
-
                             toast.show();
                         }
                     });
-
                     uploadFile(getPath(selectedImageUri));
-
                 }
             }).start();
         }
@@ -261,19 +265,13 @@ public class MenuScreen extends BaseActivity  {
     public String getPath(Uri uri) {
 
         String[] projection = {MediaStore.Images.Media.DATA};
-
         Cursor cursor = managedQuery(uri, projection, null, null, null);
-
         int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
-
         cursor.moveToFirst();
-
         return cursor.getString(column_index);
-
     }
 
     public int uploadFile(String sourceFileUri) {
-
 
         HttpURLConnection conn = null;
         DataOutputStream dos = null;
@@ -308,14 +306,18 @@ public class MenuScreen extends BaseActivity  {
             try {
 
 
-
-
-                Log.i("weddingId", "weddingId :"
-                        + weddingId);
-
                 // open a URL connection to the Servlet
                 FileInputStream fileInputStream = new FileInputStream(sourceFile);
-                String upLoadServerUri = "http://quierobesarte.cloudapp.net/Quierobesarte.Api/upload_one.php?q=" + weddingId;
+
+
+                //Resize the images
+                Bitmap myBitmap = BitmapFactory.decodeFile(sourceFileUri);
+                File dir= Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM);
+                Bitmap out = Bitmap.createScaledBitmap(myBitmap, 320, 480, false);
+
+
+
+                String upLoadServerUri = "http://quierobesarte.es.nt5.unoeuro-server.com/Uploader/Upload/?guid=" + weddingId;
                 URL url = new URL(upLoadServerUri);
 
                 // Open a HTTP  connection to  the URL
@@ -328,6 +330,7 @@ public class MenuScreen extends BaseActivity  {
                 conn.setRequestProperty("ENCTYPE", "multipart/form-data");
                 conn.setRequestProperty("Content-Type", "multipart/form-data;boundary=" + boundary);
                 conn.setRequestProperty("uploaded_files", sourceFile.getName());
+
 
                 Log.i("fileName", "fileName :"
                         + sourceFile.getName());
@@ -382,6 +385,18 @@ public class MenuScreen extends BaseActivity  {
                     });
                 }
 
+                else if(serverResponseCode == 401)
+                {
+                    dialog.dismiss();
+                    runOnUiThread(new Runnable() {
+                        public void run() {
+
+                            Toast.makeText(MenuScreen.this, "Lo sentimos esta boda no está activa!!",
+                                    Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
+
 
                 //close the streams //
                 fileInputStream.close();
@@ -401,7 +416,7 @@ public class MenuScreen extends BaseActivity  {
                     }
                 });
 
-                Log.e("Upload file to server", "error: " + ex.getMessage(), ex);
+
             } catch (Exception e) {
 
                 dialog.dismiss();
@@ -413,8 +428,7 @@ public class MenuScreen extends BaseActivity  {
                                 Toast.LENGTH_SHORT).show();
                     }
                 });
-                Log.e("Upload file to server Exception", "Exception : "
-                        + e.getMessage(), e);
+
             }
             dialog.dismiss();
             return serverResponseCode;

@@ -17,6 +17,7 @@ import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.json.JSONObject;
 
 public class LoginScreen extends Activity {
 
@@ -61,8 +62,6 @@ public class LoginScreen extends Activity {
                         if(checkCodeResponse > 0)
                         {
                             Intent i = new Intent(getApplicationContext(), MenuScreen.class);
-                            Log.i("sPassword", "sPassword :"
-                                    + checkCodeResponse.toString());
                             i.putExtra("weddingId", checkCodeResponse.toString());
                             startActivity(i);
                         }
@@ -74,28 +73,24 @@ public class LoginScreen extends Activity {
     }
 
     public int checkCode(String sPassword) {
-        Log.i("sPassword", "sPassword :"
-                + sPassword);
 
         InputStream content = null;
+
         try {
 
-            /************* Php script path ****************/
-            upLoadServerUri = "http://quierobesarte.cloudapp.net/Quierobesarte.Api/checkCode.php?q=" + sPassword;
+            //PHP Script Path
+            upLoadServerUri = "http://quierobesarte.es.nt5.unoeuro-server.com/api/Wedding/" + sPassword;
             HttpClient httpclient = new DefaultHttpClient();
-            HttpResponse response = httpclient.execute(new HttpGet(upLoadServerUri));
-            content = response.getEntity().getContent();
-            Helper helper = new Helper();
-            String result = helper.convertStreamToString(content);
 
-            Log.i("result", "result :"
-                    + result);
+            //APP VERSION
+            HttpGet httpGet = new HttpGet(upLoadServerUri);
+            httpGet.setHeader("App-Version","1.0");
 
-            if (!result.matches("0")) {
-                dialog.dismiss();
-                return Integer.parseInt(result);
+            HttpResponse response = httpclient.execute(httpGet);
 
-            } else {
+
+            if(response.getStatusLine().getStatusCode() == 204)
+            {
                 dialog.dismiss();
                 runOnUiThread(new Runnable() {
                     public void run() {
@@ -104,13 +99,32 @@ public class LoginScreen extends Activity {
                         toast.show();
                     }
                 });
-
+            }
+            else if(response.getStatusLine().getStatusCode() == 426)
+            {
+                dialog.dismiss();
+                runOnUiThread(new Runnable() {
+                    public void run() {
+                        Toast toast = Toast.makeText(getApplicationContext(),
+                                "Por favor actualice la aplicación descargando la última versión en su Market Place", Toast.LENGTH_SHORT);
+                        toast.show();
+                    }
+                });
+            }
+            else
+            {
+                Helper helper = new Helper();
+                content = response.getEntity().getContent();
+                String result = helper.convertStreamToString(content);
+                JSONObject jObject = new JSONObject(result);
+                Integer idWedding = jObject.getInt("Id");
+                dialog.dismiss();
+                return idWedding;
             }
 
 
         } catch (Exception e) {
             dialog.dismiss();
-            Log.e("[GET REQUEST]", "Network exception", e);
             runOnUiThread(new Runnable() {
                 public void run() {
                     Toast toast = Toast.makeText(getApplicationContext(),
