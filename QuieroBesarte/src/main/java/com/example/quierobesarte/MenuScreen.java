@@ -297,7 +297,7 @@ public class MenuScreen extends BaseActivity  {
             BitmapFactory.decodeStream(new FileInputStream(f),null,o);
 
             //The new size we want to scale to
-            final int REQUIRED_SIZE=400;
+            final int REQUIRED_SIZE=512;
 
             //Find the correct scale value. It should be the power of 2.
             int scale=1;
@@ -354,7 +354,7 @@ public class MenuScreen extends BaseActivity  {
 
                 Bitmap bitmap = decodeFile(sourceFile);
                 ByteArrayOutputStream bos = new ByteArrayOutputStream();
-                bitmap.compress(Bitmap.CompressFormat.JPEG, 80 /*ignored for PNG*/, bos);
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 90 /*ignored for PNG*/, bos);
                 byte[] bitmapdata = bos.toByteArray();
 
                 InputStream fileInputStream = new ByteArrayInputStream(bos.toByteArray());
