@@ -1,5 +1,6 @@
 package com.example.quierobesarte;
 
+import android.annotation.TargetApi;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.database.Cursor;
@@ -36,6 +37,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Scanner;
 
 import com.example.quierobesarte.Constants;
@@ -97,10 +99,22 @@ public class MenuScreen extends BaseActivity  {
 
                 String [] arrayPhotos = getImages(weddingId.toString());
 
+
                 if(arrayPhotos != null)
                 {
+
+
+                    List<String> listString = new ArrayList<String>();
+                    for(int i=0; i< arrayPhotos.length;i++)
+                    {
+                        listString.add(arrayPhotos[i].toString().replace("/Thumbnail", ""));
+                    }
+
+                    String[] arrayPhotosBig = new String[ listString.size() ];
+                    listString.toArray( arrayPhotosBig );
                     Intent intent = new Intent(getApplicationContext(), ImageGridActivity.class);
                     intent.putExtra(Constants.Extra.IMAGES, arrayPhotos);
+                    intent.putExtra(Constants.Extra.IMAGESBIG, arrayPhotosBig);
                     intent.putExtra("weddingId", weddingId.toString());
                     startActivity(intent);
                 }
@@ -153,7 +167,7 @@ public class MenuScreen extends BaseActivity  {
                 {
                     JSONObject oneObject = jsonArray.getJSONObject(i);
                     // Pulling items from the array
-                    stringArrayList.add("http://quierobesarte.es.nt5.unoeuro-server.com" + oneObject.getString("originalPath"));
+                    stringArrayList.add("http://quierobesarte.es.nt5.unoeuro-server.com" + oneObject.getString("thumbnailPath"));
 
                 }
 
@@ -271,6 +285,7 @@ public class MenuScreen extends BaseActivity  {
         return cursor.getString(column_index);
     }
 
+    @TargetApi(Build.VERSION_CODES.FROYO)
     public int uploadFile(String sourceFileUri) {
 
         HttpURLConnection conn = null;

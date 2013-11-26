@@ -26,6 +26,12 @@ public final class Constants {
 	 // Wrong link
 	};
 
+    public static final String[] IMAGESBIG = new String[] {
+            // Heavy images
+            "https://lh6.googleusercontent.com/-55osAWw3x0Q/URquUtcFr5I/AAAAAAAAAbs/rWlj1RUKrYI/s1024/A%252520Photographer.jpg",
+            // Wrong link
+    };
+
 	private Constants() {
 	}
 
@@ -36,5 +42,7 @@ public final class Constants {
 	public static class Extra {
 		public static final String IMAGES = "com.example.quierobesarte.IMAGES";
 		public static final String IMAGE_POSITION = "com.example.quierobesarte.IMAGE_POSITION";
-	}
+        public static final String IMAGESBIG = "com.example.quierobesarte.IMAGESBIG";
+
+    }
 }

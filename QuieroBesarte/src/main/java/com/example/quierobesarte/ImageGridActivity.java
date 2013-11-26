@@ -45,6 +45,7 @@ import java.io.InputStream;
 public class ImageGridActivity extends AbsListViewBaseActivity {
 
 	String[] imageUrls;
+    String[] imageUrlsBig;
     String id;
 	DisplayImageOptions options;
 
@@ -59,7 +60,7 @@ public class ImageGridActivity extends AbsListViewBaseActivity {
         Bundle bundle = getIntent().getExtras();
         id = bundle.getString("weddingId");
         imageUrls = bundle.getStringArray(Constants.Extra.IMAGES);
-
+        imageUrlsBig = bundle.getStringArray(Constants.Extra.IMAGESBIG);
 
 
 
@@ -88,10 +89,8 @@ public class ImageGridActivity extends AbsListViewBaseActivity {
 
 	private void startImagePagerActivity(int position) {
 
-
-
                 Intent intent = new Intent(getApplicationContext(), ImagePagerActivity.class);
-                intent.putExtra(Constants.Extra.IMAGES, imageUrls);
+                intent.putExtra(Constants.Extra.IMAGESBIG, imageUrlsBig);
                 intent.putExtra(Constants.Extra.IMAGE_POSITION, position);
                 startActivity(intent);
 
