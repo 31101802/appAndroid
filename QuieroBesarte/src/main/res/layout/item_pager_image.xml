@@ -20,14 +20,12 @@
         android:layout_gravity="center"
         android:visibility="gone" />
 
-    <Button
-        android:layout_width="124dp"
-        android:layout_height="40dp"
-        android:text="Guardar"
-        android:id="@+id/button"
+    <ImageView
+        android:layout_width="54dp"
+        android:layout_height="44dp"
+        android:id="@+id/imageView"
         android:layout_gravity="center_horizontal|bottom"
-        android:background="#fefefe"
-        android:textStyle="bold" />
+        android:src="@drawable/save" />
 
 
 </FrameLayout>

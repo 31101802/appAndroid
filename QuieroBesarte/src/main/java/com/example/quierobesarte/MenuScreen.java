@@ -21,6 +21,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.os.Build;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -89,6 +90,40 @@ public class MenuScreen extends BaseActivity  {
             }
 
         });
+
+        ImageView img = (ImageView)findViewById(R.id.imageView2);
+        img.setOnClickListener(new View.OnClickListener(){
+            public void onClick(View v){
+                Intent intent = new Intent();
+                intent.setAction(Intent.ACTION_VIEW);
+                intent.addCategory(Intent.CATEGORY_BROWSABLE);
+                intent.setData(Uri.parse("https://www.facebook.com/pages/Quiero-Besarte/281514515307124"));
+                startActivity(intent);
+            }
+        });
+
+        ImageView img2 = (ImageView)findViewById(R.id.imageView3);
+        img2.setOnClickListener(new View.OnClickListener(){
+            public void onClick(View v){
+                Intent intent = new Intent();
+                intent.setAction(Intent.ACTION_VIEW);
+                intent.addCategory(Intent.CATEGORY_BROWSABLE);
+                intent.setData(Uri.parse("https://twitter.com/QuierobesarteES"));
+                startActivity(intent);
+            }
+        });
+
+        ImageView img3 = (ImageView)findViewById(R.id.imageView4);
+        img3.setOnClickListener(new View.OnClickListener(){
+            public void onClick(View v){
+                Intent intent = new Intent();
+                intent.setAction(Intent.ACTION_VIEW);
+                intent.addCategory(Intent.CATEGORY_BROWSABLE);
+                intent.setData(Uri.parse("https://vimeo.com/quierobesarte"));
+                startActivity(intent);
+            }
+        });
+
 
     }
 
@@ -354,7 +389,7 @@ public class MenuScreen extends BaseActivity  {
 
                 Bitmap bitmap = decodeFile(sourceFile);
                 ByteArrayOutputStream bos = new ByteArrayOutputStream();
-                bitmap.compress(Bitmap.CompressFormat.JPEG, 90 /*ignored for PNG*/, bos);
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 100 /*ignored for PNG*/, bos);
                 byte[] bitmapdata = bos.toByteArray();
 
                 InputStream fileInputStream = new ByteArrayInputStream(bos.toByteArray());

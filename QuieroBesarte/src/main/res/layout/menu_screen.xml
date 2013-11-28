@@ -9,35 +9,60 @@
     android:background="@drawable/background">
 
 <ImageView
-android:layout_width="wrap_content"
-android:layout_height="wrap_content"
-android:id="@+id/imageView"
-android:layout_gravity="center_horizontal"
-android:src="@drawable/logo"
-android:contentDescription="@string/description_logo"
-/>
+    android:layout_width="244dp"
+    android:layout_height="226dp"
+    android:id="@+id/imageView"
+    android:layout_gravity="center_horizontal"
+    android:src="@drawable/logo"
+    android:contentDescription="@string/description_logo" />
 
-    <Button
-        android:layout_width="120dp"
-        android:layout_height="40dp"
-        android:text="Subir Fotos"
-        android:id="@+id/btnUpload"
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/imageView3"
         android:layout_gravity="center_horizontal|bottom"
-        android:textColor="#ffffff"
-        android:background="#da3d11"
-        android:textStyle="bold"
-        android:layout_marginBottom="40dp" />
+        android:src="@drawable/twitter_icon"
+        android:layout_marginBottom="15dp" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/imageView4"
+        android:layout_gravity="center_horizontal|bottom"
+        android:src="@drawable/vimeo_icon"
+        android:layout_marginBottom="15dp"
+        android:layout_marginLeft="70dp" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/imageView2"
+        android:layout_gravity="center_horizontal|bottom"
+        android:src="@drawable/facebook_icon"
+        android:layout_marginBottom="15dp"
+        android:layout_marginRight="70dp" />
 
     <Button
         android:layout_width="120dp"
         android:layout_height="40dp"
         android:text="Ver Fotos"
         android:id="@+id/btnViewPhotos"
-        android:layout_gravity="center_horizontal|bottom"
+        android:layout_gravity="center"
         android:textColor="#ffffff"
         android:textStyle="bold"
         android:background="#db451a"
         android:onClick="onImageGridClick"
-        android:layout_marginBottom="90dp" />
+        android:layout_marginTop="20dp" />
+
+    <Button
+        android:layout_width="120dp"
+        android:layout_height="40dp"
+        android:text="Subir Fotos"
+        android:id="@+id/btnUpload"
+        android:layout_gravity="center"
+        android:textColor="#ffffff"
+        android:background="#da3d11"
+        android:textStyle="bold"
+        android:layout_marginTop="70dp" />
 
 </FrameLayout>

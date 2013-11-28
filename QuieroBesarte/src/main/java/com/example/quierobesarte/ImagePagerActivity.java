@@ -119,7 +119,7 @@ public class ImagePagerActivity extends BaseActivity {
             final ProgressBar spinner = (ProgressBar) imageLayout.findViewById(R.id.loading);
 
 
-            Button yourButton = (Button)imageLayout.findViewById(R.id.button);
+            ImageView yourButton = (ImageView)imageLayout.findViewById(R.id.imageView);
             yourButton.setOnClickListener(new View.OnClickListener() {
 
                 @Override
