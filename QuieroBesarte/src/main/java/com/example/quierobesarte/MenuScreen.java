@@ -170,7 +170,7 @@ public class MenuScreen extends BaseActivity  {
         try {
 
 
-            String getImagesURI = Constants.Config.URL + "/api/images/"+ id + "?page=0&numItems=2000";
+            String getImagesURI = Constants.Config.URL + "/api/images/"+ id + "?page=1&numItems=2000";
             HttpClient httpclient = new DefaultHttpClient();
             HttpGet httpGet = new HttpGet(getImagesURI);
             httpGet.setHeader("App-Version", Constants.Config.VERSION);
