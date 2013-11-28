@@ -26,7 +26,7 @@
         android:layout_marginBottom="120dp" />
 
     <EditText
-        android:layout_width="241dp"
+        android:layout_width="220dp"
         android:layout_height="wrap_content"
         android:ems="10"
         android:id="@+id/editText"
@@ -37,7 +37,7 @@
         android:hint="introduce la clave"
         android:singleLine = "true"
         android:maxLines = "1"
-        android:lines = "1"/>
+        android:lines = "1" />
 
     <ImageView
         android:layout_width="wrap_content"
