@@ -12,7 +12,7 @@
         android:layout_height="323dp"
         android:id="@+id/imageView5"
         android:layout_gravity="center_horizontal|top"
-        android:src="@drawable/backgroundHead"
+        android:src="@drawable/backgroundhead"
         android:layout_marginTop="-107dp" />
 <ImageView
     android:layout_width="244dp"
