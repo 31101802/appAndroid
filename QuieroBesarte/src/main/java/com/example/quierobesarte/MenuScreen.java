@@ -394,7 +394,7 @@ public class MenuScreen extends BaseActivity  {
 
                 InputStream fileInputStream = new ByteArrayInputStream(bos.toByteArray());
 
-                String upLoadServerUri = "http://quierobesarte.es.nt5.unoeuro-server.com/Uploader/Upload/?guid=" + weddingId;
+                String upLoadServerUri = Constants.Config.URL + "Uploader/Upload/?guid=" + weddingId;
                 URL url = new URL(upLoadServerUri);
 
                 // Open a HTTP  connection to  the URL
