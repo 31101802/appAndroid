@@ -1,7 +1,9 @@
 package com.example.quierobesarte;
 
 import android.annotation.TargetApi;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -62,9 +64,10 @@ public class MenuScreen extends BaseActivity  {
 
     Button bUpload;
     int SELECT_FILE1;
-    ProgressDialog dialog = null;
+    ProgressDialog dialog;
     int serverResponseCode;
     String weddingId;
+    ProgressDialog pd;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -296,23 +299,52 @@ public class MenuScreen extends BaseActivity  {
             Log.i("getPath(selectedImageUri)", "getPath(selectedImageUri) :"
                     + getPath(selectedImageUri));
 
-            dialog = ProgressDialog.show(MenuScreen.this, "", "Subiendo tu foto...", true);
-            new Thread(new Runnable() {
-                public void run() {
-                    runOnUiThread(new Runnable() {
+
+            AlertDialog.Builder ab = new AlertDialog.Builder(this);
+            ab.setMessage("¿Confirmas la subida de la foto?");
+            ab.setPositiveButton("Sí", new DialogInterface.OnClickListener() {
+
+                @Override
+                public void onClick(DialogInterface arg0, int arg1) {
+
+                    arg0.dismiss();
+                    pd = new ProgressDialog(MenuScreen.this);
+                    pd.setMessage("Subiendo tu foto!!");
+                    pd.show();
+
+                    new Thread(new Runnable() {
                         public void run() {
-                            Toast toast =
-                                    Toast.makeText(getApplicationContext(),
-                                            "Comenzando la subida!!", Toast.LENGTH_SHORT);
-                            toast.show();
+                            runOnUiThread(new Runnable() {
+                                public void run() {
+                                    Toast toast =
+                                            Toast.makeText(getApplicationContext(),
+                                                    "Comenzando la subida!!", Toast.LENGTH_SHORT);
+                                    toast.show();
+                                }
+                            });
+                            uploadFile(getPath(selectedImageUri),pd);
                         }
-                    });
-                    uploadFile(getPath(selectedImageUri));
+                    }).start();
+
                 }
-            }).start();
+            });
+
+            ab.setNegativeButton("No", new DialogInterface.OnClickListener() {
+
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    // Do Nothing
+
+                }
+            });
+            ab.show();
+
+
+
         }
 
     }
+
 
     public String getPath(Uri uri) {
 
@@ -349,7 +381,7 @@ public class MenuScreen extends BaseActivity  {
 
 
     @TargetApi(Build.VERSION_CODES.FROYO)
-    public int uploadFile(String sourceFileUri) {
+    public int uploadFile(String sourceFileUri, ProgressDialog dialog) {
 
         HttpURLConnection conn = null;
         DataOutputStream dos = null;
@@ -407,6 +439,7 @@ public class MenuScreen extends BaseActivity  {
                 conn.setRequestProperty("ENCTYPE", "multipart/form-data");
                 conn.setRequestProperty("Content-Type", "multipart/form-data;boundary=" + boundary);
                 conn.setRequestProperty("uploaded_files", sourceFile.getName());
+                conn.setRequestProperty("App-Version", Constants.Config.VERSION);
 
 
                 Log.i("fileName", "fileName :"
@@ -471,6 +504,30 @@ public class MenuScreen extends BaseActivity  {
                         public void run() {
 
                             Toast.makeText(MenuScreen.this, "Lo sentimos esta boda no está activa!!",
+                                    Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
+
+                else if(serverResponseCode == 426)
+                {
+                    dialog.dismiss();
+                    runOnUiThread(new Runnable() {
+                        public void run() {
+
+                            Toast.makeText(MenuScreen.this, "Actualiza la aplicación antes de continuar!!",
+                                    Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
+
+                else if(serverResponseCode == 500)
+                {
+                    dialog.dismiss();
+                    runOnUiThread(new Runnable() {
+                        public void run() {
+
+                            Toast.makeText(MenuScreen.this, "Lo sentimos, ha habido un error!!",
                                     Toast.LENGTH_SHORT).show();
                         }
                     });
