@@ -92,9 +92,9 @@ public class LoginScreen extends Activity {
                 new Thread(new Runnable() {
                     public void run() {
 
-                        Integer checkCodeResponse = checkCode(sPassword);
+                        String checkCodeResponse = checkCode(sPassword);
 
-                        if(checkCodeResponse > 0)
+                        if(checkCodeResponse.length() > 0)
                         {
                             Intent i = new Intent(getApplicationContext(), MenuScreen.class);
                             i.putExtra("weddingId", checkCodeResponse.toString());
@@ -107,7 +107,7 @@ public class LoginScreen extends Activity {
         });
     }
 
-    public int checkCode(String sPassword) {
+    public String checkCode(String sPassword) {
 
         InputStream content = null;
 
@@ -152,7 +152,7 @@ public class LoginScreen extends Activity {
                 content = response.getEntity().getContent();
                 String result = helper.convertStreamToString(content);
                 JSONObject jObject = new JSONObject(result);
-                Integer idWedding = jObject.getInt("Id");
+                String idWedding = jObject.getString("Id");
                 dialog.dismiss();
                 return idWedding;
             }
@@ -169,7 +169,7 @@ public class LoginScreen extends Activity {
             });
         }
 
-    return 0;
+    return "";
 
     }
 
