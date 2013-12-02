@@ -439,7 +439,7 @@ public class MenuScreen extends BaseActivity  {
                 conn.setRequestProperty("ENCTYPE", "multipart/form-data");
                 conn.setRequestProperty("Content-Type", "multipart/form-data;boundary=" + boundary);
                 conn.setRequestProperty("uploaded_files", sourceFile.getName());
-                conn.setRequestProperty("App-Version", Constants.Config.VERSION);
+                conn.setRequestProperty("App-Version", "1");
 
 
                 Log.i("fileName", "fileName :"
@@ -497,41 +497,6 @@ public class MenuScreen extends BaseActivity  {
                     });
                 }
 
-                else if(serverResponseCode == 401)
-                {
-                    dialog.dismiss();
-                    runOnUiThread(new Runnable() {
-                        public void run() {
-
-                            Toast.makeText(MenuScreen.this, "Lo sentimos esta boda no está activa!!",
-                                    Toast.LENGTH_SHORT).show();
-                        }
-                    });
-                }
-
-                else if(serverResponseCode == 426)
-                {
-                    dialog.dismiss();
-                    runOnUiThread(new Runnable() {
-                        public void run() {
-
-                            Toast.makeText(MenuScreen.this, "Actualiza la aplicación antes de continuar!!",
-                                    Toast.LENGTH_SHORT).show();
-                        }
-                    });
-                }
-
-                else if(serverResponseCode == 500)
-                {
-                    dialog.dismiss();
-                    runOnUiThread(new Runnable() {
-                        public void run() {
-
-                            Toast.makeText(MenuScreen.this, "Lo sentimos, ha habido un error!!",
-                                    Toast.LENGTH_SHORT).show();
-                        }
-                    });
-                }
 
 
                 //close the streams //
@@ -558,12 +523,49 @@ public class MenuScreen extends BaseActivity  {
                 dialog.dismiss();
                 e.printStackTrace();
 
-                runOnUiThread(new Runnable() {
-                    public void run() {
-                        Toast.makeText(MenuScreen.this, "Ha habido un problema con la subida!!",
-                                Toast.LENGTH_SHORT).show();
+                try {
+                    serverResponseCode = conn.getResponseCode();
+                    if(serverResponseCode == 401)
+                    {
+
+                        runOnUiThread(new Runnable() {
+                            public void run() {
+
+                                Toast.makeText(MenuScreen.this, "Lo sentimos esta boda no está activa!!",
+                                        Toast.LENGTH_SHORT).show();
+                            }
+                        });
                     }
-                });
+
+                    else if(serverResponseCode == 426)
+                    {
+
+                        runOnUiThread(new Runnable() {
+                            public void run() {
+
+                                Toast.makeText(MenuScreen.this, "Actualiza la aplicación antes de continuar!!",
+                                        Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
+
+                    else if(serverResponseCode == 500)
+                    {
+
+                        runOnUiThread(new Runnable() {
+                            public void run() {
+
+                                Toast.makeText(MenuScreen.this, "Lo sentimos, ha habido un error!!",
+                                        Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
+
+                } catch (IOException e1) {
+                    e1.printStackTrace();
+                }
+
+
 
             }
             dialog.dismiss();
