@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -72,6 +73,10 @@ public class LoginScreen extends Activity {
             }
         });
 
+
+
+
+
         enterButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -106,6 +111,9 @@ public class LoginScreen extends Activity {
             }
         });
     }
+
+
+
 
     public String checkCode(String sPassword) {
 

@@ -100,7 +100,7 @@ public class MenuScreen extends BaseActivity  {
                 Intent intent = new Intent();
                 intent.setAction(Intent.ACTION_VIEW);
                 intent.addCategory(Intent.CATEGORY_BROWSABLE);
-                intent.setData(Uri.parse("https://www.facebook.com/pages/Quiero-Besarte/281514515307124"));
+                intent.setData(Uri.parse("http://quierobesarte.es.nt5.unoeuro-server.com/home/url?type=facebook"));
                 startActivity(intent);
             }
         });
@@ -111,7 +111,7 @@ public class MenuScreen extends BaseActivity  {
                 Intent intent = new Intent();
                 intent.setAction(Intent.ACTION_VIEW);
                 intent.addCategory(Intent.CATEGORY_BROWSABLE);
-                intent.setData(Uri.parse("https://twitter.com/QuierobesarteES"));
+                intent.setData(Uri.parse("http://quierobesarte.es.nt5.unoeuro-server.com/home/url?type=twitter"));
                 startActivity(intent);
             }
         });
@@ -122,7 +122,7 @@ public class MenuScreen extends BaseActivity  {
                 Intent intent = new Intent();
                 intent.setAction(Intent.ACTION_VIEW);
                 intent.addCategory(Intent.CATEGORY_BROWSABLE);
-                intent.setData(Uri.parse("https://vimeo.com/quierobesarte"));
+                intent.setData(Uri.parse("http://quierobesarte.es.nt5.unoeuro-server.com/home/url?type=vimeo"));
                 startActivity(intent);
             }
         });
