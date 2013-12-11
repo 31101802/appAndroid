@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *******************************************************************************/
-package com.example.quierobesarte;
+package es.quierobesarte.app;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -32,7 +32,7 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import com.example.quierobesarte.Constants.Extra;
+import es.quierobesarte.app.Constants.Extra;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.assist.FailReason;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;

@@ -1,4 +1,4 @@
-package com.example.quierobesarte.util;
+package es.quierobesarte.app.util;
 
 import android.app.Activity;
 import android.view.View;

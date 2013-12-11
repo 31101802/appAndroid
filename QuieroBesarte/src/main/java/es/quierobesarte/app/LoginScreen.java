@@ -1,4 +1,4 @@
-package com.example.quierobesarte;
+package es.quierobesarte.app;
 
 import java.io.InputStream;
 

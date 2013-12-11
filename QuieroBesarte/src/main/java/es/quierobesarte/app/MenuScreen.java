@@ -1,4 +1,4 @@
-package com.example.quierobesarte;
+package es.quierobesarte.app;
 
 import android.annotation.TargetApi;
 import android.app.AlertDialog;
@@ -46,7 +46,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Scanner;
 
-import com.example.quierobesarte.Constants;
+import es.quierobesarte.app.Constants;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;

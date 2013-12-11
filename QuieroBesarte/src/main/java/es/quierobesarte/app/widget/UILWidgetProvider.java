@@ -13,9 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *******************************************************************************/
-package com.example.quierobesarte;
+package es.quierobesarte.app;
 
-import static com.example.quierobesarte.Constants.IMAGES;
+import static es.quierobesarte.app.Constants.IMAGES;
 
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
@@ -24,8 +24,8 @@ import android.graphics.Bitmap;
 import android.view.View;
 import android.widget.RemoteViews;
 
-import com.example.quierobesarte.R;
-import com.example.quierobesarte.UILApplication;
+import es.quierobesarte.app.R;
+import es.quierobesarte.app.UILApplication;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.assist.ImageSize;

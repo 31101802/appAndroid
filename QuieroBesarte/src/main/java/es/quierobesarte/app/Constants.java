@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *******************************************************************************/
-package com.example.quierobesarte;
+package es.quierobesarte.app;
 
 /**
  * @author Sergey Tarasevich (nostra13[at]gmail[dot]com)
@@ -42,9 +42,9 @@ public final class Constants {
 	}
 	
 	public static class Extra {
-		public static final String IMAGES = "com.example.quierobesarte.IMAGES";
-		public static final String IMAGE_POSITION = "com.example.quierobesarte.IMAGE_POSITION";
-        public static final String IMAGESBIG = "com.example.quierobesarte.IMAGESBIG";
+		public static final String IMAGES = "es.quierobesarte.app.IMAGES";
+		public static final String IMAGE_POSITION = "es.quierobesarte.app.IMAGE_POSITION";
+        public static final String IMAGESBIG = "es.quierobesarte.app.IMAGESBIG";
 
     }
 }

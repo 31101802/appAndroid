@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *******************************************************************************/
-package com.example.quierobesarte;
+package es.quierobesarte.app;
 
 import android.app.Activity;
 import android.support.v7.app.ActionBarActivity;
